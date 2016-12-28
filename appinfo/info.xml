@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<info>
+	<id>user_servervars</id>
+	<name>php mapping user backend</name>
+	<description>
+		Authenticate users through php expressions (most likely accessing
+		variables from SSO premisses or HTTP auth methods). Note that this
+		plugin *intentionaly* does not provide group backend.
+	</description>
+	<licence>AGPL</licence>
+	<author>Jean-Jacques Puig</author>
+	<requiremin>7.0.2</requiremin>
+	<shipped>false</shipped>
+	<types>
+		<authentication />
+	</types>
+</info>

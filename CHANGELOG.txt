@@ -1,0 +1,45 @@
+CHANGELOG
+=========
+
+Version 7.0.2b (Tested with OwnCloud 7.0.2)
+------------------------------------------
+
+* Should now work with postgresql
+
+* Added a cache of evaluated callbacks for current request processing
+
+* Replaced linkTo functionality by redirect_url and... made it work along the
+  way
+
+Version 7.0.2a (Tested with OwnCloud 7.0.2)
+------------------------------------------
+
+* Bug correction in XML description of app's table
+
+Version 7.0.2 (Tested with OwnCloud 7.0.2)
+------------------------------------------
+
+* Changed version to match OC version used for development
+
+* Added table in OC database; this plugin no longer populates (pollutes
+  ?) OC's user_database backend
+
+* Removed references to groups: a separate plugin should implement
+  groups functionalities. These were 'protected_groups',
+  'default_groups' and 'group' in previous version
+
+* Added users base directory configuration
+
+* Added users deletion configuration
+
+* Added control over users ability to change avatar
+
+* Added mapping for user's avatar
+
+* In some mappings (notably display name, email and avatar), uid may be
+  referenced with $uid in the evaluated php expression
+
+Version 0.1 (Tested with OwnCloud 5.0.6)
+----------------------------------------
+
+* Initial plugin

@@ -1,0 +1,68 @@
+<?php
+
+\OCP\App::checkAppEnabled(basename(dirname(dirname(__FILE__))));
+
+if (!function_exists('espci_avatar')) {
+  function espci_avatar($uid) {
+    if (($lc = ldap_connect('ldap.espci.fr')) === FALSE) {
+      return FALSE;
+    }
+
+    if (ldap_set_option($lc, LDAP_OPT_PROTOCOL_VERSION, 3) === FALSE) {
+      return FALSE;
+    }
+
+    if (($lr = ldap_search($lc, 'dc=espci,dc=fr',
+                            '(&(objectClass=frESPCIperson)(uid=' . $uid . '))',
+                            array('jpegPhoto'))) === FALSE) {
+      return FALSE;
+    }
+
+    if (($le = ldap_get_entries($lc, $lr))
+          === FALSE) {
+      return FALSE;
+    }
+
+    if (!isset($le[0]['jpegphoto'][0])) {
+      return FALSE;
+    }
+
+    $image = imagecreatefromstring(base64_decode($le[0]['jpegphoto'][0]));
+    ldap_unbind($lc);
+
+    $w = imagesx($image);
+    $h = imagesy($image);
+
+    if ($w > $h) {
+      $image2 = imagecreatetruecolor($h, $h);
+      imagecopy($image2, $image, 0, 0, ($w - $h) / 2, 0, $h, $h);
+    } elseif ($w < $h) {
+      $image2 = imagecreatetruecolor($w, $w);
+      imagecopy($image2, $image, 0, 0, 0, ($h - $w) / 2, $w, $w);
+    }
+
+    ob_start();
+    imagejpeg($image2);
+    $data = 'data:image/jpeg;base64,' . base64_encode(ob_get_contents());
+    ob_end_clean();
+
+    return $data;
+  }
+}
+
+$config = array(
+  'sso_url'             => 'FALSE',
+  'slo_url'             => 'FALSE',
+
+  'autocreate'          => 'TRUE',
+  'update_user_data'    => 'TRUE',
+  'user_deletion'       => 'FALSE',
+  'user_change_avatar'  => 'FALSE',
+
+  'base_directory'      => 'FALSE',
+
+  'uid'                 => '$_SERVER[\'MELLON_uid\']',
+  'displayname'         => '$_SERVER[\'MELLON_cn\']',
+  'email'               => '$_SERVER[\'MELLON_mail\']',
+  'avatar'              => 'espci_avatar($uid)',
+);

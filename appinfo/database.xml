@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<database>
+
+ <name>*dbname*</name>
+ <create>true</create>
+ <overwrite>false</overwrite>
+ <charset>utf8</charset>
+
+ <table>
+
+  <name>*dbprefix*servervars_users</name>
+
+  <declaration>
+
+   <field>
+    <name>uid</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>displayname</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>lastlogin</name>
+    <type>datetime</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>uid_idx</name>
+    <primary>true</primary>
+    <unique>true</unique>
+    <field>
+     <name>uid</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+</database>
